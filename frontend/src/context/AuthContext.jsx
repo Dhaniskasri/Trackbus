@@ -46,25 +46,15 @@ export const AuthProvider = ({ children }) => {
   }, [clearSession]);
 
   const login = useCallback(
-    async ({ username, role }) => {
-      // Mocked login flow using dummy values with no backend
-      const dummyRole = role || 'student';
-      const mockResult = {
-        token: `dummy_token_${dummyRole}_${Date.now()}`,
-        user: {
-          id: `dummy_${dummyRole}_1`,
-          username: username || 'dummy_user',
-          role: dummyRole,
-          firstName: 'Dummy',
-          lastName: dummyRole,
-          firstLogin: false
-        }
-      };
-
-      persistSession(mockResult.token, mockResult.user);
-      const destination = roleRedirect[mockResult.user.role] || '/login';
+    async ({ username, password, role }) => {
+      const { data } = await api.post('/auth/login', { username, password, role });
+      persistSession(data.token, data.user);
+      // Redirect to profile on first login so user changes default password
+      const destination = data.user.firstLogin
+        ? '/profile'
+        : (roleRedirect[data.user.role] || '/login');
       navigate(destination, { replace: true });
-      return mockResult.user;
+      return data.user;
     },
     [navigate, persistSession]
   );

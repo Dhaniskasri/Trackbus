@@ -1,0 +1,5 @@
+import Trip from '../models/Trip.js';
+import Bus from '../models/Bus.js';
+export const startTrip = async (req, res) => { try { const { busId } = req.body; let trip = await Trip.findOne({ busId, status: 'active' }); if (!trip) { trip = await Trip.create({ busId, driverId: req.user._id }); } await trip.populate(['busId', 'routeId']); res.status(200).json(trip); } catch (e) { res.status(400).json({error:e.message}); } };
+export const getActiveTrip = async (req, res) => { try { const trip = await Trip.findOne({ driverId: req.user._id, status: 'active' }).populate(['busId', 'routeId']); res.status(200).json(trip || {}); } catch (e) { res.status(400).json({error:e.message}); } };
+export const endTrip = async (req, res) => { try { const tripId = req.params.id || req.body.tripId; const trip = await Trip.findByIdAndUpdate(tripId, { status: 'ended', endedAt: Date.now() }, { new: true }); res.status(200).json(trip); } catch (e) { res.status(400).json({error:e.message}); } };

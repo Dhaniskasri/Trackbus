@@ -1,0 +1,10 @@
+import express from 'express';
+import { getStudents, getDrivers, createUser } from '../controllers/adminController.js';
+import { requireAuth } from '../middleware/auth.js';
+const router = express.Router();
+router.use(requireAuth);
+router.get('/students', getStudents);
+router.post('/students', createUser);
+router.get('/drivers', getDrivers);
+router.post('/drivers', createUser);
+export default router;

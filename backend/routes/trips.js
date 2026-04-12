@@ -1,0 +1,10 @@
+import express from 'express';
+import { startTrip, getActiveTrip, endTrip } from '../controllers/tripController.js';
+import { requireAuth } from '../middleware/auth.js';
+const router = express.Router();
+router.use(requireAuth);
+router.post('/start', startTrip);
+router.get('/active', getActiveTrip);
+router.post('/end', endTrip);
+router.post('/:id/end', endTrip);
+export default router;
