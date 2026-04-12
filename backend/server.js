@@ -56,6 +56,36 @@ app.use('/api/students', studentRoutes);
 // Socket setup
 setupSockets(io);
 
+// ── Serving Frontend (Integrated) ───────────────────────────────────────────
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static assets in production-like environments or if built
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendDistPath));
+
+// Handle React Router - Serve index.html for all non-API routes
+app.use((req, res, next) => {
+  // If request is for an /api route, it should have been handled above
+  if (req.path.startsWith('/api')) return next();
+
+  // Otherwise, serve index.html (React SPA)
+  res.sendFile(path.join(frontendDistPath, 'index.html'), (err) => {
+    if (err) {
+      // If we can't find index.html, it means frontend is likely not built
+      if (process.env.NODE_ENV === 'production') {
+        res.status(404).json({ error: 'Frontend build not found. Run npm run build.' });
+      } else {
+        // In local development we want to avoid getting stuck if frontend/dist is missing
+        next();
+      }
+    }
+  });
+});
+
 // Database Connection
 const PORT = process.env.PORT || 5000;
 const startServer = async () => {

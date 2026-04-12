@@ -1,10 +1,21 @@
 import express from 'express';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
-import { getStudents, getDrivers, createUser } from '../controllers/adminController.js';
+import { 
+  getStudents, getDrivers, createUser, 
+  getDashboardStats, getAdminTrips, getLiveBuses, 
+  getAdminEvents, getAnalytics 
+} from '../controllers/adminController.js';
 import { requireAuth } from '../middleware/auth.js';
 const router = express.Router();
 router.use(requireAuth);
+
+// Dashboard & Monitoring
+router.get('/dashboard', getDashboardStats);
+router.get('/trips', getAdminTrips);
+router.get('/live-buses', getLiveBuses);
+router.get('/events', getAdminEvents);
+router.get('/analytics', getAnalytics);
 
 // Students
 router.get('/students', getStudents);

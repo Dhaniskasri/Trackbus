@@ -12,14 +12,10 @@ const inferApiBaseUrl = () => {
     const isLocalHost = ['localhost', '127.0.0.1'].includes(hostname);
     const isLanHost = hostname?.startsWith('192.168.') || hostname?.startsWith('10.') || hostname?.endsWith('.local');
 
-    // 2. Local development — use localhost backend
-    if (isLocalHost) {
-      return 'http://localhost:5000';
-    }
-
-    // 3. LAN access (mobile testing) — same host, backend port
-    if (isLanHost || parsedPort === 5173) {
-      return `${protocol}//${hostname}:5000`;
+    // 4. Combined/Same-origin access (e.g., accessed via Backend port 5000)
+    // If we're on port 5000, we're definitely talking to the same origin
+    if (parsedPort === 5000 || !isLocalHost && !isLanHost && !parsedPort) {
+      return ''; // empty string means relative URL / same origin
     }
   }
 
