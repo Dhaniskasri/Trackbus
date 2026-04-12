@@ -62,11 +62,16 @@ const startServer = async () => {
   let mongoUri = process.env.MONGO_URI;
 
   if (!mongoUri) {
-    // No MONGO_URI set — spin up an in-memory MongoDB for development
+    // No MONGO_URI set — spin up a persistent local MongoDB for development
     const { MongoMemoryServer } = await import('mongodb-memory-server');
-    const mongod = await MongoMemoryServer.create();
+    const mongod = await MongoMemoryServer.create({
+      instance: {
+        dbPath: './db_data',
+        storageEngine: 'wiredTiger', // Recommended for persistence
+      }
+    });
     mongoUri = mongod.getUri();
-    console.log('🧪 Using in-memory MongoDB (development mode)');
+    console.log('🧪 Using local persistent MongoDB (at backend/db_data)');
   }
 
   try {

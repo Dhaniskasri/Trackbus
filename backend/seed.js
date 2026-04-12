@@ -26,9 +26,14 @@ const seed = async () => {
   let mongod;
 
   if (!mongoUri) {
-    mongod = await MongoMemoryServer.create();
+    mongod = await MongoMemoryServer.create({
+      instance: {
+        dbPath: './db_data',
+        storageEngine: 'wiredTiger',
+      }
+    });
     mongoUri = mongod.getUri();
-    console.log('🧪 Using in-memory MongoDB (data will not persist — set MONGO_URI in .env)');
+    console.log('🧪 Using local persistent MongoDB (at backend/db_data)');
   }
 
   await mongoose.connect(mongoUri);
