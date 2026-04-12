@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../utils/api';
 
 const TOKEN_KEY = 'tm_token';
 const USER_KEY = 'tm_user';
