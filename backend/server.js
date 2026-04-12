@@ -44,15 +44,27 @@ setupSockets(io);
 
 // Database Connection
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/trackmate';
+const startServer = async () => {
+  let mongoUri = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI)
-  .then(() => {
+  if (!mongoUri) {
+    // No MONGO_URI set — spin up an in-memory MongoDB for development
+    const { MongoMemoryServer } = await import('mongodb-memory-server');
+    const mongod = await MongoMemoryServer.create();
+    mongoUri = mongod.getUri();
+    console.log('🧪 Using in-memory MongoDB (development mode)');
+  }
+
+  try {
+    await mongoose.connect(mongoUri);
     console.log('✅ Connected to MongoDB');
     server.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`🚀 Backend server running on http://localhost:${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error('❌ MongoDB connection error:', err);
-  });
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exit(1);
+  }
+};
+
+startServer();
