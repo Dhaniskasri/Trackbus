@@ -30,6 +30,20 @@ export const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
+// Debug Inspector Route (To see in-memory data)
+app.get('/api/debug/inspect', async (req, res) => {
+  try {
+    const collections = mongoose.connection.collections;
+    const data = {};
+    for (const key in collections) {
+      data[key] = await mongoose.model(collections[key].modelName).find({});
+    }
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to inspect data', details: err.message });
+  }
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
