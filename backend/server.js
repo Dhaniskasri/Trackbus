@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import crypto from 'crypto';
 import admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
 
 dotenv.config();
 
@@ -513,6 +514,14 @@ app.get('/api/debug/inspect', async (_req, res) => {
   res.json(data);
 });
 
+app.get('/', (_req, res) => {
+  res.json({
+    name: 'Trackbus Backend API',
+    status: 'ok',
+    apiRoot: '/api'
+  });
+});
+
 io.on('connection', (socket) => {
   socket.on('auth:token', ({ token }) => {
     try {
@@ -556,6 +565,12 @@ app.use((req, res, next) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT} (${runningMode} mode)`);
-});
+const isFirebaseFunctionRuntime = Boolean(process.env.FUNCTION_TARGET || process.env.K_SERVICE);
+
+if (!isFirebaseFunctionRuntime) {
+  server.listen(PORT, () => {
+    console.log(`Backend running on http://localhost:${PORT} (${runningMode} mode)`);
+  });
+}
+
+export const api = functions.https.onRequest(app);
