@@ -40,3 +40,4 @@ desktop.ini
 # Local Data
 backend/db_data/
 sample_students.csv
+.firebase/
