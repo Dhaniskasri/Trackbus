@@ -1,0 +1,113 @@
+{
+  "users": [
+    {
+      "id": "admin-1",
+      "username": "admin",
+      "password": "$2b$10$yUA1ip776iFvW.sXHixQf.a7VRelbt4Wr/8BTORxU5QTPlWYBk0xi",
+      "name": "System Admin",
+      "role": "admin",
+      "firstLogin": false,
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    },
+    {
+      "id": "driver-1",
+      "username": "driver1",
+      "password": "$2b$10$Be5/UhPPgj/qImhrhGLeXOHcEDfOXT1JGeSHV7UnvEFpsSyDdpH0W",
+      "name": "Ravi Driver",
+      "role": "driver",
+      "phone": "9000000001",
+      "assignedBusId": "bus-1",
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    },
+    {
+      "id": "student-1",
+      "username": "student1",
+      "password": "$2b$10$.SlOBd8ud4baMBejd45mg.uLg2fvE0OjL75476RwxcXeVfsGZLeWu",
+      "name": "Sita Student",
+      "role": "student",
+      "phone": "9000000002",
+      "assignedBusId": "bus-1",
+      "assignedRouteId": "route-1",
+      "assignedStopId": "stop-1",
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    },
+    {
+      "id": "10fe03d6-5f3c-42d5-aaac-7973806db258",
+      "username": "Ramprasath",
+      "name": "Ramprasath",
+      "phone": "7871211692",
+      "password": "$2b$10$IsEdHj6uXV8KOASoMBMhFOV0DER6FnaCvdDpRk2L1f8RwRdUg2z32",
+      "role": "driver",
+      "createdAt": 1776095342626,
+      "updatedAt": 1776095342626
+    },
+    {
+      "id": "85d6cc66-cb64-4550-9258-577a67181cad",
+      "username": "dhaniskasri",
+      "name": "dhaniskasri",
+      "phone": "7871211683",
+      "password": "$2b$10$Mrc1TfhVCbMkPvb3yqKKVuXlgf1dojBW7WrWh1nDFQt4UOvt2eCha",
+      "role": "driver",
+      "createdAt": 1776095398848,
+      "updatedAt": 1776095398848
+    }
+  ],
+  "stops": [
+    {
+      "id": "stop-1",
+      "name": "College Gate",
+      "location": {
+        "lat": 16.5072,
+        "lng": 81.5014
+      },
+      "sequence": 1,
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    },
+    {
+      "id": "stop-2",
+      "name": "Main Road",
+      "location": {
+        "lat": 16.514,
+        "lng": 81.492
+      },
+      "sequence": 2,
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-1",
+      "name": "Route A",
+      "stops": [
+        "stop-1",
+        "stop-2"
+      ],
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    }
+  ],
+  "buses": [
+    {
+      "id": "bus-1",
+      "name": "Bus 1",
+      "numberPlate": "AP39AB1234",
+      "capacity": 50,
+      "driverId": "driver-1",
+      "routeId": "route-1",
+      "lastKnownLocation": {
+        "lat": 16.5072,
+        "lng": 81.5014,
+        "updatedAt": 1713024000000
+      },
+      "createdAt": 1713024000000,
+      "updatedAt": 1713024000000
+    }
+  ],
+  "trips": [],
+  "events": []
+}
