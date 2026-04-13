@@ -10,7 +10,6 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import crypto from 'crypto';
 import admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
 
 dotenv.config();
 
@@ -565,12 +564,6 @@ app.use((req, res, next) => {
   });
 });
 
-const isFirebaseFunctionRuntime = Boolean(process.env.FUNCTION_TARGET || process.env.K_SERVICE);
-
-if (!isFirebaseFunctionRuntime) {
-  server.listen(PORT, () => {
-    console.log(`Backend running on http://localhost:${PORT} (${runningMode} mode)`);
-  });
-}
-
-export const api = functions.https.onRequest(app);
+server.listen(PORT, () => {
+  console.log(`Backend running on http://localhost:${PORT} (${runningMode} mode)`);
+});
