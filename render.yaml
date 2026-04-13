@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: trackbus-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: BACKEND_MODE
+        value: local
+      - key: SECRET
+        value: trackmate_secret
